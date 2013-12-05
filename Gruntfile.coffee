@@ -1,6 +1,12 @@
 module.exports = (grunt) ->
   grunt.initConfig
 
+    autoprefixer:
+      options:
+        browsers: ["last 2 version", "ie8", "ie7"]
+      dist:
+        src: ["htdocs/css/screen.css"] 
+
     bower:
       install:
         options:
@@ -23,14 +29,12 @@ module.exports = (grunt) ->
         outputStyle: "expanded"
         httpPath: "htdocs"
 
-    sass:
+    csscss:
+      options:
+        compass: true
+        require: "config.rb"
       dist:
-        options:
-          style: "expanded"
-          compass: "true"
-
-        src: ["sass/screen.sass"]
-        dest: "css/screen.css"
+        src:["sass/screen.sass"]
 
     cssmin:
       dist:
@@ -40,9 +44,24 @@ module.exports = (grunt) ->
     csscomb:
       dist:
         options:
-          sortOrder: "config/csscomb.json"
+          sortOrder: "csscomb.json"
         
         src: ["css/screen.css"]
+        dest: "htdocs/css/screen.css"
+
+    csslint:
+      dist:
+        options:
+          csslintrc: ".csslintrc"
+        src: ["htdocs/css/screen.css"]
+
+    sass:
+      dist:
+        options:
+          style: "expanded"
+          compass: true
+
+        src: ["sass/screen.sass"]
         dest: "htdocs/css/screen.css"
 
     slim:
@@ -57,34 +76,30 @@ module.exports = (grunt) ->
       options:
         livereload: true
 
-      compass:
-        files: "sass/*.sass"
-        tasks: "compass:dist"
+      # compass:
+      #   files: "sass/*.sass"
+      #   tasks: "compass:dist"
 
       sass:
         files: "sass/*.sass"
         tasks: "sass:dist"
 
-      csscomb:
-        files: "<%= csscomb.dist.src %>"
-        tasks: "csscomb:dist"
-
-      cssmin:
-        files: "<%= cssmin.dist.src %>"
-        tasks: "cssmin:dist"
-
       slim:
         files: "<%= slim.dist.src %>"
         tasks: "slim:dist"
 
-  grunt.loadNpmTasks "grunt-contrib-watch"
-  grunt.loadNpmTasks "grunt-contrib-sass"
-  grunt.loadNpmTasks "grunt-contrib-compass"
-  grunt.loadNpmTasks "grunt-csscomb"
-  grunt.loadNpmTasks "grunt-contrib-cssmin"
   grunt.loadNpmTasks "grunt-slim"
+  grunt.loadNpmTasks "grunt-csscss"
+  grunt.loadNpmTasks "grunt-csscomb"
   grunt.loadNpmTasks "grunt-bower-task"
+  grunt.loadNpmTasks "grunt-autoprefixer"
+  grunt.loadNpmTasks "grunt-contrib-sass"
+  grunt.loadNpmTasks "grunt-contrib-watch"
+  grunt.loadNpmTasks "grunt-contrib-cssmin"
+  grunt.loadNpmTasks "grunt-contrib-compass"
+  grunt.loadNpmTasks "grunt-contrib-csslint"
   
   grunt.registerTask "default", "watch"
+  grunt.registerTask "stylesheet", ["sass", "autoprefixer", "csscomb", "csslint"]
   grunt.registerTask "build", ['compass', 'sass', 'cssmin', 'slim']
   grunt.registerTask "bower", "bower.install"
