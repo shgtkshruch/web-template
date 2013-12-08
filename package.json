@@ -11,7 +11,7 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-slim": "~0.1.0",
-    "grunt-csscss": "~1.6.1",
+    "grunt-csscss": "~0.6.1",
     "grunt-csscomb": "~1.1.0",
     "grunt-bower-task": "~0.3.4",
     "grunt-autoprefixer": "~0.4.1",
