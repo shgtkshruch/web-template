@@ -3,9 +3,10 @@ module.exports = (grunt) ->
 
     autoprefixer:
       options:
-        browsers: ["last 2 version", "ie8", "ie7"]
+        browsers: ["last 2 version", "ie 8", "ie 7"]
       dist:
-        src: ["htdocs/css/screen.css"] 
+        src: ["css/screen.css"]
+        dest: "css/screen.css"
 
     bower:
       install:
@@ -45,7 +46,7 @@ module.exports = (grunt) ->
       dist:
         options:
           sortOrder: "csscomb.json"
-        
+
         src: ["css/screen.css"]
         dest: "htdocs/css/screen.css"
 
@@ -53,7 +54,8 @@ module.exports = (grunt) ->
       dist:
         options:
           csslintrc: ".csslintrc"
-        src: ["htdocs/css/screen.css"]
+        src: ["css/screen.css"]
+        dest: "htdocs/css/screen.css"
 
     sass:
       dist:
@@ -62,13 +64,13 @@ module.exports = (grunt) ->
           compass: true
 
         src: ["sass/screen.sass"]
-        dest: "htdocs/css/screen.css"
+        dest: "css/screen.css"
 
     slim:
       dist:
       	options:
           pretty: "false"
-          
+
         src: ["slim/index.slim"]
         dest: "htdocs/index.html"
 
@@ -98,8 +100,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-cssmin"
   grunt.loadNpmTasks "grunt-contrib-compass"
   grunt.loadNpmTasks "grunt-contrib-csslint"
-  
+
   grunt.registerTask "default", "watch"
-  grunt.registerTask "stylesheet", ["sass", "autoprefixer", "csscomb", "csslint"]
+  grunt.registerTask "stylesheet", ["sass", "autoprefixer", "csscomb"]
   grunt.registerTask "build", ['compass', 'sass', 'cssmin', 'slim']
   grunt.registerTask "bower", "bower.install"
