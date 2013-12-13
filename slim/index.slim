@@ -1,13 +1,30 @@
+- html5shivDir= "bower_components/html5shiv"
 - modernizzrDir = "bower_components/modernizr"
 
 doctype 5
+/[if lt IE 7]
+  |<html lang="ja" class="no-js ie6">
+
+/[if IE 7]
+  |<html lang="ja" class="no-js ie7">
+
+/[if IE 8]
+  |<html lang="ja" class="no-js ie8">
+
 html class="no-js" lang="ja"
   head
     meta charset="UTF-8"
     title
     meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximun-scale=1.0,user-scalable=0"
     meta name="format-detection" content="telephone=no"
-    link type="text/css" rel="stylesheet" href="css/screen.css" media="all"
+
+    link rel="stylesheet" href="css/screen.css" media="all"
+
+    /[if lt IE 9]
+      script src="#{html5shivDir}/html5.js"
+      script src="//ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"
+      script src="//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"
+
     script src="#{modernizzrDir}/modernizr.js"
 
   body
