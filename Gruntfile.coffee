@@ -92,6 +92,7 @@ module.exports = (grunt) ->
 
   grunt.loadNpmTasks "grunt-slim"
   grunt.loadNpmTasks "grunt-csscss"
+  grunt.loadNpmTasks "grunt-notify"
   grunt.loadNpmTasks "grunt-csscomb"
   grunt.loadNpmTasks "grunt-bower-task"
   grunt.loadNpmTasks "grunt-autoprefixer"
