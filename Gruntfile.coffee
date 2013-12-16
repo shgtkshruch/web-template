@@ -30,6 +30,11 @@ module.exports = (grunt) ->
         outputStyle: "expanded"
         httpPath: "htdocs"
 
+    copy:
+      main:
+        src: "js/*.js"
+        dest: "htdocs/"
+
     csscss:
       options:
         compass: true
@@ -64,7 +69,7 @@ module.exports = (grunt) ->
           compass: true
 
         src: ["sass/screen.sass"]
-        dest: "css/screen.css"
+        dest: "htdocs/css/screen.css"
 
     slim:
       dist:
@@ -82,13 +87,17 @@ module.exports = (grunt) ->
       #   files: "sass/*.sass"
       #   tasks: "compass:dist"
 
+      js:
+        files: "js/*.js"
+        tasks: "copy"
+
       sass:
         files: "sass/*.sass"
-        tasks: "sass:dist"
+        tasks: "sass"
 
       slim:
-        files: "<%= slim.dist.src %>"
-        tasks: "slim:dist"
+        files: "slim/index.slim"
+        tasks: "slim"
 
   grunt.loadNpmTasks "grunt-slim"
   grunt.loadNpmTasks "grunt-csscss"
@@ -96,6 +105,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-csscomb"
   grunt.loadNpmTasks "grunt-bower-task"
   grunt.loadNpmTasks "grunt-autoprefixer"
+  grunt.loadNpmTasks "grunt-contrib-copy"
   grunt.loadNpmTasks "grunt-contrib-sass"
   grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-contrib-cssmin"
