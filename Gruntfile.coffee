@@ -18,6 +18,18 @@ module.exports = (grunt) ->
           cleanTargetDir: "true"
           cleanBowerDir: "false"
 
+    browser_sync:
+      files:
+        src: ["htdocs/index.html", "htdocs/css/*.css"]
+      options:
+        server:
+          baseDir: "htdocs"
+        watchTask: true
+        ghostMode:
+          scroll: true
+          links: true
+          forms: true
+
     compass:
       dist:
         options:
@@ -104,6 +116,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-notify"
   grunt.loadNpmTasks "grunt-csscomb"
   grunt.loadNpmTasks "grunt-bower-task"
+  grunt.loadNpmTasks "grunt-browser-sync"
   grunt.loadNpmTasks "grunt-autoprefixer"
   grunt.loadNpmTasks "grunt-contrib-copy"
   grunt.loadNpmTasks "grunt-contrib-sass"
@@ -112,7 +125,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-compass"
   grunt.loadNpmTasks "grunt-contrib-csslint"
 
-  grunt.registerTask "default", "watch"
+  grunt.registerTask "default", ["watch"]
   grunt.registerTask "stylesheet", ["sass", "autoprefixer", "csscomb"]
-  grunt.registerTask "build", ['compass', 'sass', 'cssmin', 'slim']
+  grunt.registerTask "build", ['sass', 'cssmin', 'slim']
   grunt.registerTask "bower", "bower.install"
+  grunt.registerTask "sync", ["browser_sync", "watch"]
