@@ -22,6 +22,13 @@ module.exports = (grunt) ->
           links: true
           forms: true
 
+    connect:
+      server:
+        options:
+          port: 8080
+          base: 'htdocs/'
+          open: 'http://localhost:8080/'
+
     copy:
       main:
         src: 'js/*.js'
@@ -95,7 +102,8 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-copy'
     grunt.loadNpmTasks 'grunt-contrib-sass'
     grunt.loadNpmTasks 'grunt-contrib-watch'
-    grunt.task.run 'watch'
+    grunt.loadNpmTasks 'grunt-contrib-connect'
+    grunt.task.run 'connect', 'watch'
 
   grunt.registerTask 'style', [], ->
     grunt.loadNpmTasks 'grunt-notify'
