@@ -95,18 +95,25 @@ module.exports = (grunt) ->
         files: 'slim/index.slim'
         tasks: 'slim:dist'
 
-
   grunt.registerTask 'default', [], ->
-    grunt.loadNpmTasks 'grunt-slim'
-    grunt.loadNpmTasks 'grunt-notify'
-    grunt.loadNpmTasks 'grunt-contrib-copy'
-    grunt.loadNpmTasks 'grunt-contrib-sass'
-    grunt.loadNpmTasks 'grunt-contrib-watch'
+    grunt.task.run 'dev'
+
+  grunt.registerTask 'dev', [], ->
     grunt.loadNpmTasks 'grunt-contrib-connect'
     grunt.task.run 'connect', 'watch'
 
+  grunt.registerTask 'watch', [], ->
+    grunt.loadNpmTasks 'grunt-slim'
+    grunt.loadNpmTasks 'grunt-contrib-copy'
+    grunt.loadNpmTasks 'grunt-contrib-sass'
+    grunt.loadNpmTasks 'grunt-contrib-watch'
+    grunt.task.run 'watch'
+
+  grunt.registerTask 'sync', [], ->
+    grunt.loadNpmTasks 'grunt-browser-sync'
+    grunt.task.run 'browser_sync', 'watch'
+
   grunt.registerTask 'style', [], ->
-    grunt.loadNpmTasks 'grunt-notify'
     grunt.loadNpmTasks 'grunt-csscss'
     grunt.loadNpmTasks 'grunt-csscomb'
     grunt.loadNpmTasks 'grunt-autoprefixer'
@@ -114,11 +121,5 @@ module.exports = (grunt) ->
     grunt.task.run 'autoprefixer', 'csscomb', 'csscss', 'csslint'
 
   grunt.registerTask 'min', [], ->
-    grunt.loadNpmTasks 'grunt-notify'
     grunt.loadNpmTasks 'grunt-contrib-cssmin'
     grunt.task.run 'cssmin'
-
-  grunt.registerTask 'sync', [], ->
-    grunt.loadNpmTasks 'grunt-browser-sync'
-    grunt.task.run 'default'
-    grunt.task.run 'browser_sync'
