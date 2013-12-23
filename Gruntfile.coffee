@@ -36,11 +36,6 @@ module.exports = (grunt) ->
           base: 'htdocs/'
           open: 'http://localhost:8080/'
 
-    copy:
-      main:
-        src: 'js/*.js'
-        dest: 'htdocs/'
-
     csscss:
       options:
         compass: true
