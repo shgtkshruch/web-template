@@ -93,11 +93,11 @@ module.exports = (grunt) ->
 
       sass:
         files: 'sass/*.sass'
-        tasks: 'sass:dist'
+        tasks: 'sass'
 
       slim:
         files: 'slim/index.slim'
-        tasks: 'slim:dist'
+        tasks: 'slim'
 
   grunt.registerTask 'default', [], ->
     grunt.task.run 'dev'
