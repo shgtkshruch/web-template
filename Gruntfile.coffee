@@ -46,8 +46,8 @@ module.exports = (grunt) ->
 
     cssmin:
       dist:
-        src: 'css/screen.css'
-        dest: 'htdocs/css/styles.min.css'
+        src: 'htdocs/css/screen.css'
+        dest: 'htdocs/css/screen.min.css'
 
     csscomb:
       dist:
@@ -62,6 +62,17 @@ module.exports = (grunt) ->
           csslintrc: '.csslintrc'
         src: 'css/screen.css'
         dest: 'htdocs/css/screen.css'
+
+    imagemin:
+      dist:
+        options:
+          optimizationLevel: 3
+        files: [
+          expand: true
+          cwd: 'develop/img/'
+          src: ['**/*.{png,jpg,gif}']
+          dest: 'htdocs/img/'
+        ]
 
     sass:
       dist:
@@ -122,4 +133,5 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'min', [], ->
     grunt.loadNpmTasks 'grunt-contrib-cssmin'
-    grunt.task.run 'cssmin'
+    grunt.loadNpmTasks 'grunt-contrib-imagemin'
+    grunt.task.run 'cssmin', 'imagemin'
