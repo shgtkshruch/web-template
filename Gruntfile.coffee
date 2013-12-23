@@ -25,6 +25,7 @@ module.exports = (grunt) ->
     coffee:
       options:
         sourceMap: true
+        bare: true
       compile:
         files:
           'htdocs/js/script.js': 'coffee/script.coffee'
