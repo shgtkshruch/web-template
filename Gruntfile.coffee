@@ -94,7 +94,7 @@ module.exports = (grunt) ->
     watch:
       options:
         spawn: false
-        atBegin: true
+        atBegin: false
         livereload: true
 
       coffee:
