@@ -1,5 +1,5 @@
 {
-  "name": "grunt",
+  "name": "develop",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
@@ -22,5 +22,6 @@
     "grunt-contrib-csslint": "~0.2.0",
     "grunt-contrib-connect": "~0.5.0",
     "grunt-contrib-imagemin": "~0.4.0"
-  }
+  },
+  "private": "true"
 }

@@ -3,16 +3,18 @@ module.exports = (grunt) ->
 
   grunt.initConfig
 
+    pkg: grunt.file.readJSON("package.json")
+
     autoprefixer:
       options:
         browsers: ['last 2 version', 'ie 8', 'ie 7']
       dist:
-        src: 'css/screen.css'
-        dest: 'css/screen.css'
+        src: '<%= sass.dist.dest %>'
+        dest: 'htdocs/css/screen.style.css'
 
     browser_sync:
       files:
-        src: ['htdocs/index.html', 'htdocs/css/*.css']
+        src: ['<%= slim.dist.dest %>', '<%= sass.dist.dest %>']
       options:
         server:
           baseDir: 'htdocs'
@@ -27,8 +29,8 @@ module.exports = (grunt) ->
         sourceMap: true
         bare: true
       compile:
-        files:
-          'htdocs/js/script.js': 'coffee/script.coffee'
+        src: '<%= pkg.name %>/coffee/script.coffee'
+        dest: 'htdocs/js/script.js'
 
     connect:
       server:
@@ -42,31 +44,31 @@ module.exports = (grunt) ->
         compass: true
         require: 'config.rb'
       dist:
-        src:'sass/screen.sass'
+        src: '<%= autoprefixer.dist.dest %>'
 
     cssmin:
       dist:
-        src: 'htdocs/css/screen.css'
+        src: '<%= sass.dist.dest %>'
         dest: 'htdocs/css/screen.min.css'
 
     csscomb:
       dist:
         options:
           sortOrder: 'csscomb.json'
-        src: 'css/screen.css'
+        src: '<%= autoprefixer.dist.dest %>'
         dest: 'htdocs/css/screen.css'
 
     csslint:
       dist:
         options:
           csslintrc: '.csslintrc'
-        src: 'css/screen.css'
+        src: '<%= autoprefixer.dist.dest %>'
         dest: 'htdocs/css/screen.css'
 
     imagemin:
       dist:
         options:
-          optimizationLevel: 3
+          optimizationLevel: 7
         files: [
           expand: true
           cwd: 'develop/img/'
@@ -79,31 +81,32 @@ module.exports = (grunt) ->
         options:
           style: 'expanded'
           compass: true
-        files:
-          'htdocs/css/screen.css': 'sass/screen.sass'
+        src: '<%= pkg.name %>/sass/screen.sass'
+        dest: 'htdocs/css/screen.css'
 
     slim:
       dist:
         options:
-          pretty: false
-        files:
-          'htdocs/index.html': 'slim/index.slim'
+          pretty: true
+        src: '<%= pkg.name %>/index.slim'
+        dest: 'htdocs/index.html'
 
     watch:
       options:
-        livereload: true
         spawn: false
+        atBegin: true
+        livereload: true
 
       coffee:
-        files: 'coffee/*.coffee'
+        files: '<%= coffee.compile.src %>'
         tasks: 'coffee'
 
       sass:
-        files: 'sass/*.sass'
+        files: '<%= sass.dist.src %>'
         tasks: 'sass'
 
       slim:
-        files: 'slim/index.slim'
+        files: '<%= slim.dist.src %>'
         tasks: 'slim'
 
   grunt.registerTask 'default', [], ->
