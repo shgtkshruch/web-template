@@ -5,6 +5,12 @@ module.exports = (grunt) ->
 
     pkg: grunt.file.readJSON("package.json")
 
+    config:
+      src: 'develop'
+      srcCommon: '<%= config.src %>/common'
+      dist: 'www'
+      distCommon: '<%= config.dist %>/common'
+
     autoprefixer:
       options:
         browsers: ['last 2 version', 'ie 8', 'ie 7']
@@ -14,10 +20,10 @@ module.exports = (grunt) ->
 
     browser_sync:
       files:
-        src: ['<%= slim.dist.dest %>', '<%= sass.dist.dest %>']
+        src: ['<%= config.dist %>/index.html', '<%= config.distCommon %>/css/screen.css']
       options:
         server:
-          baseDir: 'htdocs'
+          baseDir: '<%= config.dist %>'
         watchTask: true
         ghostMode:
           scroll: true
@@ -29,14 +35,14 @@ module.exports = (grunt) ->
         sourceMap: true
         bare: true
       compile:
-        src: '<%= pkg.name %>/coffee/script.coffee'
-        dest: 'htdocs/js/script.js'
+        src: '<%= config.srcCommon %>/coffee/script.coffee'
+        dest: '<%= config.distCommon %>/js/script.js'
 
     connect:
       server:
         options:
           port: 8080
-          base: 'htdocs/'
+          base: '<%= config.dist %>'
           open: 'http://localhost:8080/'
 
     csscss:
@@ -49,21 +55,21 @@ module.exports = (grunt) ->
     cssmin:
       dist:
         src: '<%= sass.dist.dest %>'
-        dest: 'htdocs/css/screen.min.css'
+        dest: '<%= config.distCommon %>/css/screen.min.css'
 
     csscomb:
       dist:
         options:
           sortOrder: 'csscomb.json'
         src: '<%= autoprefixer.dist.dest %>'
-        dest: 'htdocs/css/screen.css'
+        dest: '<%= config.distCommon %>/css/screen.css'
 
     csslint:
       dist:
         options:
           csslintrc: '.csslintrc'
         src: '<%= autoprefixer.dist.dest %>'
-        dest: 'htdocs/css/screen.css'
+        dest: '<%= config.distCommon %>/css/screen.css'
 
     imagemin:
       dist:
@@ -71,9 +77,9 @@ module.exports = (grunt) ->
           optimizationLevel: 7
         files: [
           expand: true
-          cwd: 'develop/img/'
+          cwd: '<%= config.srcCommon %>/img/'
           src: ['**/*.{png,jpg,gif}']
-          dest: 'htdocs/img/'
+          dest: '<%= config.distCommon %>/img/'
         ]
 
     sass:
@@ -81,15 +87,20 @@ module.exports = (grunt) ->
         options:
           style: 'expanded'
           compass: true
-        src: '<%= pkg.name %>/sass/screen.sass'
-        dest: 'htdocs/css/screen.css'
+        src: '<%= config.srcCommon %>/sass/screen.sass'
+        dest: '<%= config.distCommon %>/css/screen.css'
 
     slim:
       dist:
         options:
           pretty: true
-        src: '<%= pkg.name %>/index.slim'
-        dest: 'htdocs/index.html'
+        files: [
+          expand: true
+          cwd: '<%= config.src %>'
+          src: ['{,*/}*.slim']
+          dest: '<%= config.dist %>'
+          ext: '.html'
+        ]
 
     watch:
       options:
@@ -102,11 +113,11 @@ module.exports = (grunt) ->
         tasks: 'coffee'
 
       sass:
-        files: '<%= sass.dist.src %>'
+        files: '<%= config.srcCommon %>/sass/*.sass'
         tasks: 'sass'
 
       slim:
-        files: '<%= slim.dist.src %>'
+        files: '<%= config.src %>/**/*.slim'
         tasks: 'slim'
 
   grunt.registerTask 'default', [], ->
