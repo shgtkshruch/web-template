@@ -1,19 +1,32 @@
-@charset "utf-8"
+@charset "UTF-8"
 
+// compass and other libraries setting
 @import include/setting
 
-@import bourbon/bourbon
+// Compass
 @import compass
 //@import compass/layout
 //@import compass/reset
-@import include/mixin
-@import include/valiables
 
+// Libraries
+@import SassyLists
+@import bourbon
+// @import neat
+// @import susy
+// @import bootstrap
+// @import color/colors
+
+// my mixin and variables
+@import include/valiables
+@import include/mixin
+
+// normalize and reset css
 @import library/normalize_v1.1.3
-// @import library/reset
+//@import library/reset
+
+// project styling
 @import include/reset
 @import include/base
 @import include/layout
 @import include/module
-
-@import style
+@import include/style

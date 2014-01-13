@@ -97,6 +97,7 @@ module.exports = (grunt) ->
         options:
           style: 'expanded'
           compass: true
+          bundleExec: true
         src: '<%= config.srcCommon %>/sass/screen.sass'
         dest: '<%= config.distCommon %>/css/screen.css'
 

@@ -1,5 +1,31 @@
 # Require any additional compass plugins here.
 
+# A simple and lightweight mixin library for Sass.
+# http://bourbon.io/
+require "bourbon"
+
+# Adds glob-based imports to Sass
+# https://github.com/chriseppstein/sass-globbing
+# require "sass-globbing"
+
+# SassyLists is a Compass Extension
+# http://sassylists.com/
+require "SassyLists"
+
+# Responsive grids for Compass.
+# http://susy.oddbird.net/
+# require "susy"
+
+# A lightweight semantic grid framework
+# for Sass and Bourbon
+# http://neat.bourbon.io/
+# require "neat"
+
+# bootstrap-sass
+# Official port of Bootstrap to Sass, ready to roll.
+# https://github.com/twbs/bootstrap-sass
+# require "bootstrap-sass"
+
 # Set this to the root of your project when deployed:
 http_path = "htdocs"
 css_dir = "htdocs/css"
@@ -16,7 +42,6 @@ relative_assets = true
 
 # To disable debugging comments that display the original location of your selectors. Uncomment:
 line_comments = false
-
 
 # If you prefer the indented syntax, you might want to regenerate this
 # project again passing --syntax sass, or you can uncomment this:
