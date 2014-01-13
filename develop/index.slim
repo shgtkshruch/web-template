@@ -1,5 +1,5 @@
-- html5shivDir= "bower_components/html5shiv/dist"
-- modernizzrDir = "bower_components/modernizr"
+- html5shivDir= "js/html5shiv/"
+- modernizzrDir = "js/modernizr/"
 
 doctype 5
 /[if lt IE 7]
@@ -40,7 +40,10 @@ html lang="ja" class="no-js"
     meta property="fb:admins" content="facebookのユーザーID"
     meta property="fb:app_id" content="facebookのアプリID"
 
-    link rel="stylesheet" href="css/screen.css" media="all"
+    link rel="stylesheet" href="common/css/screen.css" media="all"
+
+    /modernizr
+      script src="#{html5shivDir}/modernizr.js"
 
     /[if lt IE 9]
       script src="#{html5shivDir}/html5shiv.js"
@@ -51,9 +54,9 @@ html lang="ja" class="no-js"
     script src="js/script.js"
   body
 
-    / grunt-contrib-watch
+    /livereload setting
     script src="//localhost:35729/livereload.js"
 
-    / browser_sync setting
+    /browser_sync setting
       script src='http://192.168.11.2:3000/socket.io/socket.io.js'
       script src='http://192.168.11.2:3001/browser-sync-client.min.js'
