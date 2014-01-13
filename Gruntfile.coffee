@@ -18,6 +18,16 @@ module.exports = (grunt) ->
         src: '<%= sass.dist.dest %>'
         dest: 'htdocs/css/screen.style.css'
 
+    bower:
+      install:
+        options:
+          targetDir: './<%= config.src %>/common'
+          layout: 'byType'
+          install: true
+          verbose: false
+          clearnTargetDir: true
+          cleanBowerDir: true
+
     browser_sync:
       files:
         src: ['<%= config.dist %>/index.html', '<%= config.distCommon %>/css/screen.css']
@@ -60,7 +70,7 @@ module.exports = (grunt) ->
     csscomb:
       dist:
         options:
-          sortOrder: 'csscomb.json'
+          config: 'csscomb.json'
         src: '<%= autoprefixer.dist.dest %>'
         dest: '<%= config.distCommon %>/css/screen.css'
 
@@ -122,6 +132,10 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'default', [], ->
     grunt.task.run 'dev'
+
+  grunt.registerTask 'b', [], ->
+    grunt.loadNpmTasks 'grunt-bower-task'
+    grunt.task.run 'bower'
 
   grunt.registerTask 'dev', [], ->
     grunt.loadNpmTasks 'grunt-contrib-connect'
