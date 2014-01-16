@@ -1,9 +1,11 @@
 {
-  "name": "test",
+  "name": "middleman",
   "version": "0.0.0",
+  "homepage": "https://github.com/shgtkshruch/middleman",
   "authors": [
-    "Shirouchi Shigetaka <shgtk.shruch@gamil.com>"
+    "shgtkshruch <shgtk.shruch@gmail.com>"
   ],
+  "description": "my middleman project",
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -13,32 +15,23 @@
     "tests"
   ],
   "devDependencies": {
-    "bourbon": "~3.1.8",
+    "jquery": "1.10.2",
+    "modernizr": "~2.7.1",
     "html5shiv": "~3.7.0",
-    "jquery": "~1.10.2",
-    "modernizr": "~2.7.0"
+    "jquery-ui": "~1.10.3"
   },
   "exportsOverride": {
-    "normalize-css": {
-      "sass": "**/*.css"
-    },
     "jquery": {
-      "coffee": "**/*.js"
+      "javascripts": "**/*.js"
     },
     "modernizr": {
-      "coffee": "modernizr.js"
+      "javascripts": "modernizr.js"
     },
     "html5shiv": {
-      "coffee": "**/*.js"
+      "javascripts": "**/*.js"
     },
     "jquery-ui": {
-      "coffee": "ui/jquery-ui.js"
-    },
-    "reset-css": {
-      "sass": "**/*.css"
-    },
-    "bourbon": {
-      "sass": "app/assets/stylesheets/**/*.scss"
+      "javascripts": "ui/jquery-ui.js"
     }
   }
 }

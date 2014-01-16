@@ -1,81 +1,13 @@
-// font-familly
-$georgia: Georgia, Cambria, "Times New Roman", Times, serif
-$helvetica: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif
-$lucida-grande: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif
-$monospace: "Bitstream Vera Sans Mono", Consolas, Courier, monospace
-$verdana: Verdana, Geneva, sans-serif
+// Utilities
 
 // font-height
 @mixin font-height($font-size, $line-height)
   font-size: $font-size
   line-height: $line-height / $font-size
 
-//hide text
+// hide text
 @mixin hide-text
   text-indent: 100%
   white-space: nowrap
   overflow: hidden
 
-// size
-@mixin size($width, $height: $width)
-  width: $width
-  height: $height
-
-// position
-@mixin position($position: relative, $coordinates: 0 0 0 0)
-
-  @if type-of($position) == list
-    $coordinates: $position
-    $position: relative
-
-  $coordinates: unpack($coordinates)
-
-  $top: nth($coordinates, 1)
-  $right: nth($coordinates, 2)
-  $bottom: nth($coordinates, 3)
-  $left: nth($coordinates, 4)
-
-  position: $position
-
-  @if $top and $top == auto or type-of($top) == number and not unitless($top)
-    top: $top
-  @if $right and $right == auto or type-of($right) == number and not unitless($right)
-    right: $right
-  @if $bottom and $bottom == auto or type-of($bottom) == number and not unitless($bottom)
-    bottom: $bottom
-  @if $left and $left == auto or type-of($left) == number and not unitless($left)
-    left: $left
-
-// size
-@mixin size($size)
-  @if length($size) == 1
-    @if $size == auto
-      width: $size
-      height: $size
-
-    @else if unitless($size)
-      width: $size + px
-      height: $size + px
-
-    @else if not unitless($size)
-      width: $size
-      height: $size
-
-  // Width x Height
-  @if length($size) == 2
-    $width: nth($size, 1)
-    $height: nth($size, 2)
-
-    @if $width == auto
-      width: $width
-    @else if not unitless($width)
-      width: $width
-    @else if unitless($width)
-      width: $width + px
-
-    @if $height == auto
-      height: $height
-    @else if not unitless($height)
-      height: $height
-    @else if unitless($height)
-      height: $height + px
