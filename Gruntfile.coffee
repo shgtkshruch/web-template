@@ -3,110 +3,163 @@ module.exports = (grunt) ->
 
   grunt.initConfig
 
-    # grunt-bower-task
-    # https://github.com/yatskevich/grunt-bower-task
+    pkg: grunt.file.readJSON("package.json")
+
+    config:
+      src: 'develop'
+      srcCommon: '<%= config.src %>/common'
+      dist: 'www'
+      distCommon: '<%= config.dist %>/common'
+
+    autoprefixer:
+      options:
+        browsers: ['last 2 version', 'ie 8', 'ie 7']
+      dist:
+        src: '<%= sass.dist.dest %>'
+        dest: 'htdocs/css/screen.style.css'
+
     bower:
       install:
         options:
-          targetDir: './source'
+          targetDir: './<%= config.src %>/common'
           layout: 'byType'
           install: true
           verbose: false
           clearnTargetDir: true
           cleanBowerDir: true
 
-    # grunt-browser-sync
-    # https://github.com/shakyshane/grunt-browser-sync
     browser_sync:
       files:
-        src: ['build/index.html', 'build/stylesheets/style.css']
+        src: ['<%= config.dist %>/index.html', '<%= config.distCommon %>/css/screen.css']
       options:
         server:
-          baseDir: 'build'
-        watchTask: false
+          baseDir: '<%= config.dist %>'
+        watchTask: true
         ghostMode:
           scroll: true
           links: true
           forms: true
 
-    # grunt-contrib-connect
-    # https://github.com/gruntjs/grunt-contrib-connect
+    coffee:
+      options:
+        sourceMap: true
+        bare: true
+      compile:
+        src: '<%= config.srcCommon %>/coffee/script.coffee'
+        dest: '<%= config.distCommon %>/js/script.js'
+
     connect:
       server:
         options:
-          port: 9001
-          base: 'build'
-          open: 'http://localhost:9001/'
+          port: 8080
+          base: '<%= config.dist %>'
+          open: 'http://localhost:8080/'
 
-    # grunt-csscomb
-    # https://github.com/csscomb/grunt-csscomb
-    # https://github.com/csscomb/csscomb.js
-    csscomb:
+    csscss:
       options:
-        config: 'csscomb.json'
+        compass: true
+        require: 'config.rb'
       dist:
-        expand: true
-        cwd: 'build/stylesheets/'
-        src: ['*.css']
-        dest: 'build/stylesheets'
+        src: '<%= autoprefixer.dist.dest %>'
 
-    # grunt-prettify
-    # https://github.com/jonschlinkert/grunt-prettify
-    prettify:
-      options:
-        condense: true
-        padcomments: false
-        indent: 2
-        indent_char: ' '
-        indent_inner_html: 'false'
-        brace_style: 'expand'
-        wrap_line_length: 0
-        preserve_newlines: true
-        unformatted: [
-          'dd'
+    cssmin:
+      dist:
+        src: '<%= sass.dist.dest %>'
+        dest: '<%= config.distCommon %>/css/screen.min.css'
+
+    csscomb:
+      dist:
+        options:
+          config: 'csscomb.json'
+        src: '<%= autoprefixer.dist.dest %>'
+        dest: '<%= config.distCommon %>/css/screen.css'
+
+    csslint:
+      dist:
+        options:
+          csslintrc: '.csslintrc'
+        src: '<%= autoprefixer.dist.dest %>'
+        dest: '<%= config.distCommon %>/css/screen.css'
+
+    imagemin:
+      dist:
+        options:
+          optimizationLevel: 7
+        files: [
+          expand: true
+          cwd: '<%= config.srcCommon %>/img/'
+          src: ['**/*.{png,jpg,gif}']
+          dest: '<%= config.distCommon %>/img/'
         ]
-      files:
-        expand: true
-        cwd: 'build'
-        src: ['**/*.html']
-        dest: 'build'
 
-    # grunt-contrib-htmlmin
-    # https://github.com/gruntjs/gruntcontrib-htmlmin
-    htmlmin:
-      options:
-        removeComments: true
-        collapseWhitespace: true
-      files:
-        expand: true
-        cwd: 'build'
-        src: '**/*.html'
-        dest: 'build'
+    sass:
+      dist:
+        options:
+          style: 'expanded'
+          compass: true
+        src: '<%= config.srcCommon %>/sass/screen.sass'
+        dest: '<%= config.distCommon %>/css/screen.css'
 
-    # grunt-contrib-watch
-    # https://github.com/gruntjs/grunt-contrib-watch
+    slim:
+      dist:
+        options:
+          pretty: true
+        files: [
+          expand: true
+          cwd: '<%= config.src %>'
+          src: ['{,*/}*.slim']
+          dest: '<%= config.dist %>'
+          ext: '.html'
+        ]
+
     watch:
       options:
         spawn: false
         atBegin: false
         livereload: true
 
+      coffee:
+        files: '<%= coffee.compile.src %>'
+        tasks: 'coffee'
+
+      sass:
+        files: '<%= config.srcCommon %>/sass/*.sass'
+        tasks: 'sass'
+
+      slim:
+        files: '<%= config.src %>/**/*.slim'
+        tasks: 'slim'
+
   grunt.registerTask 'default', [], ->
+    grunt.task.run 'dev'
+
+  grunt.registerTask 'b', [], ->
     grunt.loadNpmTasks 'grunt-bower-task'
     grunt.task.run 'bower'
 
-  grunt.registerTask 'p', [], ->
-    grunt.loadNpmTasks 'grunt-csscomb'
-    grunt.loadNpmTasks 'grunt-prettify'
-    grunt.loadNpmTasks 'grunt-contrib-htmlmin'
-    grunt.task.run 'htmlmin', 'prettify', 'csscomb'
+  grunt.registerTask 'dev', [], ->
+    grunt.loadNpmTasks 'grunt-contrib-connect'
+    grunt.task.run 'connect', 'watch'
 
-  grunt.registerTask 's', [], ->
-    grunt.loadNpmTasks 'grunt-browser-sync'
+  grunt.registerTask 'watch', [], ->
+    grunt.loadNpmTasks 'grunt-slim'
+    grunt.loadNpmTasks 'grunt-contrib-sass'
     grunt.loadNpmTasks 'grunt-contrib-watch'
+    grunt.loadNpmTasks 'grunt-contrib-coffee'
+    grunt.task.run 'watch'
+
+  grunt.registerTask 'sync', [], ->
+    grunt.loadNpmTasks 'grunt-browser-sync'
     grunt.task.run 'browser_sync', 'watch'
 
-  grunt.registerTask 'w', [], ->
-    grunt.loadNpmTasks 'grunt-contrib-connect'
-    grunt.loadNpmTasks 'grunt-contrib-watch'
-    grunt.task.run 'connect', 'watch'
+  grunt.registerTask 'style', [], ->
+    grunt.loadNpmTasks 'grunt-csscss'
+    grunt.loadNpmTasks 'grunt-csscomb'
+    grunt.loadNpmTasks 'grunt-autoprefixer'
+    grunt.loadNpmTasks 'grunt-contrib-csslint'
+    grunt.task.run 'autoprefixer', 'csscomb', 'csscss', 'csslint'
+
+  grunt.registerTask 'min', [], ->
+    grunt.loadNpmTasks 'grunt-contrib-cssmin'
+    grunt.loadNpmTasks 'grunt-contrib-imagemin'
+    grunt.task.run 'cssmin', 'imagemin'
